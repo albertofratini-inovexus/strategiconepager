@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inovexus — Strategic Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0F;
+    --ink-soft: #3D3D4E;
+    --ink-muted: #8888A0;
+    --surface: #FFFFFF;
+    --surface-alt: #F4F4F8;
+    --surface-deep: #EEEEF5;
+    --orange: #F2611A;
+    --orange-soft: #FDF0EA;
+    --orange-mid: #F89060;
+    --navy: #0E1535;
+    --navy-mid: #1C2A5E;
+    --navy-soft: #E8EAF4;
+    --gold: #D4A017;
+    --gold-soft: #FBF5E3;
+    --teal: #0D8C72;
+    --teal-soft: #E3F4F0;
+    --border: rgba(10,10,15,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--surface-alt); color: var(--ink); font-size: 14px; line-height: 1.6; }
+
+  .hero { background: var(--navy); padding: 48px 48px 40px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; background: var(--orange); opacity: 0.12; }
+  .hero::after { content: ''; position: absolute; bottom: -80px; left: 30%; width: 200px; height: 200px; border-radius: 50%; background: #4A6CF7; opacity: 0.08; }
+  .hero-inner { position: relative; z-index: 1; }
+  .logo-row { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+  .logo-mark { width: 40px; height: 40px; background: var(--orange); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 18px; color: #fff; }
+  .logo-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; }
+  .hero-tag { display: inline-block; background: rgba(242,97,26,0.18); color: #F89060; font-size: 11px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; border: 1px solid rgba(242,97,26,0.25); }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 38px; color: #fff; line-height: 1.15; max-width: 640px; margin-bottom: 12px; }
+  .hero h1 em { font-style: italic; color: var(--orange-mid); }
+  .hero-sub { color: rgba(255,255,255,0.55); font-size: 14px; max-width: 540px; }
+  .hero-date { position: absolute; top: 48px; right: 48px; color: rgba(255,255,255,0.35); font-size: 12px; text-align: right; z-index: 1; }
+
+  .brainstorm-banner { background: linear-gradient(90deg, #D4A017 0%, #F2611A 100%); padding: 12px 48px; display: flex; align-items: center; gap: 16px; }
+  .bb-icon { width: 28px; height: 28px; border-radius: 7px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .bb-text { font-size: 13px; color: #fff; font-weight: 500; }
+  .bb-text span { font-weight: 400; opacity: 0.8; margin-left: 8px; }
+
+  .kpi-bar { background: var(--navy-mid); padding: 0 48px; }
+  .kpi-row { display: flex; border-top: 1px solid rgba(255,255,255,0.06); }
+  .kpi-item { flex: 1; padding: 20px 0 20px 24px; border-right: 1px solid rgba(255,255,255,0.06); }
+  .kpi-item:first-child { padding-left: 0; }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-value { font-family: 'DM Serif Display', serif; font-size: 28px; color: #fff; line-height: 1; margin-bottom: 4px; }
+  .kpi-value span { color: var(--orange-mid); }
+  .kpi-label { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 500; }
+
+  .body-wrap { padding: 40px 48px 60px; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+  .col-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  .col-header { padding: 18px 20px 14px; border-bottom: 1px solid var(--border); }
+  .col-chip { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+  .chip-now { background: var(--orange-soft); color: var(--orange); border: 1px solid rgba(242,97,26,0.2); }
+  .chip-market { background: var(--navy-soft); color: var(--navy-mid); border: 1px solid rgba(28,42,94,0.2); }
+  .chip-future { background: var(--gold-soft); color: var(--gold); border: 1px solid rgba(212,160,23,0.2); }
+  .col-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); line-height: 1.2; margin-bottom: 4px; }
+  .col-sub { font-size: 12px; color: var(--ink-muted); }
+  .col-body { padding: 16px 20px 20px; }
+
+  .pillar { display: flex; gap: 10px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .pillar:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .pillar-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .icon-orange { background: var(--orange-soft); }
+  .icon-navy { background: var(--navy-soft); }
+  .icon-gold { background: var(--gold-soft); }
+  .pillar-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .pillar-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+  .tag-inline { display: inline-block; font-size: 10px; background: var(--surface-deep); color: var(--ink-soft); border-radius: 4px; padding: 1px 6px; margin-left: 4px; }
+  .strength-bar { height: 3px; border-radius: 2px; background: var(--surface-deep); margin-top: 6px; overflow: hidden; }
+  .s-high { width: 85%; background: var(--teal); height: 3px; border-radius: 2px; }
+  .s-mid { width: 55%; background: var(--orange); height: 3px; border-radius: 2px; }
+  .s-low { width: 25%; background: #E24B4A; height: 3px; border-radius: 2px; }
+
+  .gap-table { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; margin-bottom: 40px; }
+  .gap-table-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: var(--surface-deep); padding: 10px 20px; border-bottom: 1px solid var(--border); }
+  .gt-head { font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-muted); }
+  .gap-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 11px 20px; border-bottom: 1px solid var(--border); align-items: start; }
+  .gap-table-row:last-child { border-bottom: none; }
+  .gap-table-row:hover { background: var(--surface-alt); }
+  .gt-dim { font-size: 13px; font-weight: 500; color: var(--ink); padding-top: 3px; }
+  .gt-cell { font-size: 12px; color: var(--ink-soft); }
+  .badge-sm { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 500; }
+  .badge-strong { background: var(--teal-soft); color: var(--teal); }
+  .badge-mid { background: var(--orange-soft); color: var(--orange); }
+  .badge-weak { background: #FCEBEB; color: #A32D2D; }
+  .badge-planned { background: var(--gold-soft); color: var(--gold); }
+
+  .roadmap { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 28px 28px 24px; margin-bottom: 40px; }
+  .roadmap-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); margin-bottom: 4px; }
+  .roadmap-sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 24px; }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
+  .timeline::before { content: ''; position: absolute; top: 18px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--orange) 0%, var(--gold) 100%); z-index: 0; }
+  .phase { position: relative; z-index: 1; }
+  .phase-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 12px; background: var(--navy-mid); border: 3px solid var(--surface-alt); }
+  .phase-dot.active { background: var(--orange); }
+  .phase-period { font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; }
+  .phase-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .phase-tasks { list-style: none; }
+  .phase-tasks li { font-size: 11px; color: var(--ink-muted); padding: 2px 0; display: flex; align-items: flex-start; gap: 5px; }
+  .phase-tasks li::before { content: '→'; color: var(--orange-mid); font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+
+  .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .vision-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px 22px; }
+  .vision-card.accent { background: var(--navy); border-color: var(--navy); }
+  .vision-card-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .vision-card.accent .vision-card-title { color: #fff; }
+  .icon-pill { width: 22px; height: 22px; border-radius: 6px; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; }
+  .vision-list { list-style: none; margin-top: 4px; }
+  .vision-list li { font-size: 12px; color: var(--ink-soft); padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 8px; }
+  .vision-card.accent .vision-list li { color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.08); }
+  .vision-list li:last-child { border-bottom: none; }
+  .vs-arrow { color: var(--orange); font-weight: 500; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+
+  .brainstorm-section { background: var(--surface); border-radius: var(--radius); border: 2px solid rgba(212,160,23,0.3); padding: 28px 28px 24px; margin-bottom: 40px; position: relative; overflow: hidden; }
+  .brainstorm-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--orange) 100%); }
+  .bs-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); margin-bottom: 4px; }
+  .bs-sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 22px; }
+  .open-questions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .oq-card { background: var(--surface-alt); border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 14px 16px; }
+  .oq-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--orange); opacity: 0.35; line-height: 1; margin-bottom: 6px; }
+  .oq-q { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.45; margin-bottom: 6px; }
+  .oq-hint { font-size: 11px; color: var(--ink-muted); line-height: 1.5; }
+
+  .radar-wrap { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; margin-bottom: 40px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; align-items: center; }
+  .radar-legend-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); margin-bottom: 4px; }
+  .radar-legend-sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 20px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; color: var(--ink-soft); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .ld-now { background: var(--orange); }
+  .ld-market { background: var(--navy-mid); }
+  .ld-future { background: var(--gold); }
+  .chart-canvas-wrap { position: relative; width: 100%; padding-top: 75%; }
+  .chart-canvas-wrap canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+  .footer { background: var(--navy); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-left { font-family: 'DM Serif Display', serif; font-size: 16px; color: rgba(255,255,255,0.7); }
+  .footer-left span { color: var(--orange-mid); }
+  .footer-right { font-size: 11px; color: rgba(255,255,255,0.3); text-align: right; }
+  .owner-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+  .owner-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-date">April 2026<br><span style="color:rgba(255,255,255,0.2);">Confidential — internal use</span></div>
+  <div class="hero-inner">
+    <div class="logo-row">
+      <div class="logo-text">Inovexus</div>
+    </div>
+    <div class="hero-tag">Strategic analysis</div>
+    <h1>From Acceleration Program <em>to Founders Club</em></h1>
+    <p class="hero-sub">Market landscape · Current positioning · Founders Club vision — prepared as a pre-read for the upcoming senior brainstorming session</p>
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="brainstorm-banner">
+  <div class="bb-icon">💡</div>
+  <div class="bb-text">Brainstorm prep — Session Philippe Roche, Apr 8 2026 <span>· Prototype: early May · Pilot: summer 2026 · Validated model: end 2026 · Scale: 2027</span></div>
+</div>
+
+<!-- KPI BAR -->
+<div class="kpi-bar">
+  <div class="kpi-row">
+    <div class="kpi-item">
+      <div class="kpi-value"><span>$3M</span></div>
+      <div class="kpi-label">Perks catalog value</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-value">117k<span>€</span></div>
+      <div class="kpi-label">Avg. saved / startup (12 months)</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-value">66<span>h+</span></div>
+      <div class="kpi-label">Direct mentoring / startup</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-value">480<span>+</span></div>
+      <div class="kpi-label">Mentor community (total)</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-value">65<span>+</span></div>
+      <div class="kpi-label">Startups accelerated</div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <div class="section-label">Comparative overview — Today · Market · Tomorrow</div>
+  <div class="three-col">
+
+    <!-- TODAY -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-chip chip-now">Inovexus — Today</div>
+        <div class="col-title">The current program</div>
+        <div class="col-sub">Hybrid fund + accelerator · 6 months · Early-stage B2B tech</div>
+      </div>
+      <div class="col-body">
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">🎁</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Perks & Partnerships <span class="tag-inline">$3M</span></div>
+            <div class="pillar-desc">Curated catalog of tool & service discounts. Avg. €117k saved per startup that activates it over 12 months.</div>
+            <div class="strength-bar"><div class="s-high"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">👥</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Structured mentoring <span class="tag-inline">66h+</span></div>
+            <div class="pillar-desc">3–5 top-tier mentors per startup. Lead Mentor + dedicated analyst. Community: Silicon Valley, Google, Microsoft, Sony, exited founders.</div>
+            <div class="strength-bar"><div class="s-high"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">🖥</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Dedicated mentoring platform</div>
+            <div class="pillar-desc">Proprietary session tracking + notetaker tool. Q2 target: 80% of sessions logged. Mentor matching automation in progress.</div>
+            <div class="strength-bar"><div class="s-mid"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">📊</div>
+          <div class="pillar-content">
+            <div class="pillar-name">KPI determination & tracking</div>
+            <div class="pillar-desc">KPIs defined at kick-off and tracked via Affinity throughout the program. Automation roadmap active in Q2.</div>
+            <div class="strength-bar"><div class="s-mid"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">🎓</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Q&A Expert sessions + workshops <span class="tag-inline">2×/month</span></div>
+            <div class="pillar-desc">Bi-monthly online expert sessions on key themes (GTM, Product, Fundraising, AI…). Structured and recurring.</div>
+            <div class="strength-bar"><div style="width:90%;background:var(--teal);height:3px;border-radius:2px;"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">🔗</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Office hours & Business introductions</div>
+            <div class="pillar-desc">Warm intros within community. Current gap: no formalized process, ticketing, or tracking in Affinity. The one pillar still to structure.</div>
+            <div class="strength-bar"><div class="s-low"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-orange">🌍</div>
+          <div class="pillar-content">
+            <div class="pillar-name">International DNA — core competitive edge</div>
+            <div class="pillar-desc">Paris & Berlin. English-speaking mentors from US & EU. Global-first mindset embedded across every program dimension — a clear differentiator vs. peers.</div>
+            <div class="strength-bar"><div class="s-high"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MARKET -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-chip chip-market">Market landscape</div>
+        <div class="col-title">Best practices</div>
+        <div class="col-sub">Techstars · Station F · Startupbootcamp · Seedcamp · YC · Plug & Play</div>
+      </div>
+      <div class="col-body">
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">🏬</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Curated partner marketplace</div>
+            <div class="pillar-desc">Vouched marketplace (Seedcamp). CRM (Hubspot) to track startup requests — volume, response time, ticket lifecycle. NPS + ticketing as quality KPIs.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">🎯</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Talent acquisition support</div>
+            <div class="pillar-desc">150+ talent intros in 2023 (Seedcamp). Career Fairs for junior profiles. Dedicated talent pool (talent.seedcamp.com). Packaged, not ad hoc.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">🏕</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Structured community events</div>
+            <div class="pillar-desc">Founders Retreats, Summits, Dinners, endurance activities. Community becomes a standalone proprietary asset — relationships persist beyond the program.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">⚡</div>
+          <div class="pillar-content">
+            <div class="pillar-name">High-intensity formats & FOMO</div>
+            <div class="pillar-desc">Sprints, hackathons, monthly pitch training, weekly Alumni Talks. Signature Demo Days in front of corporates, investors & large crowds.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">✈️</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Learning expeditions</div>
+            <div class="pillar-desc">International delegations with targeted investor & business intros (US, Germany, Asia). Emerging standalone product + new P&L revenue line.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">🎤</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Media, PR & content</div>
+            <div class="pillar-desc">YC Library, Startup School. Podcasts (Apple + YouTube), PR support, journalist database. Technical newsletters → SEO, credibility, ecosystem reach.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-navy">🔄</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Multi-track programs</div>
+            <div class="pillar-desc">Programs by sector, maturity, or geography. Common core + tailored modules. Requires robust playbook to maintain quality at scale.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOUNDERS CLUB -->
+    <div class="col-card" style="border-color: rgba(212,160,23,0.3); background: linear-gradient(180deg, #FFFDF5 0%, #fff 40%);">
+      <div class="col-header" style="border-color: rgba(212,160,23,0.15);">
+        <div class="col-chip chip-future">Founders Club — 2027 vision</div>
+        <div class="col-title">The target model</div>
+        <div class="col-sub">Umbrella model · Hyper-scalable · Inbound-first · Tested summer 2026</div>
+      </div>
+      <div class="col-body">
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">🏛</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Founders Club umbrella</div>
+            <div class="pillar-desc">Single model combining accompaniment and sourcing. The accelerator becomes one pillar of the Club — not the reverse. Club access = standalone value.</div>
+            <div class="strength-bar"><div style="width:90%;background:var(--gold);height:3px;border-radius:2px;"></div></div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">📡</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Inbound-first <span class="tag-inline">80% target</span></div>
+            <div class="pillar-desc">Shift from 100% outbound diagnostic to cohort + marketing model. 80% inbound sourcing in medium term — powered by community gravity and Club brand.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">🔁</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Cohort model co-existing with agnostic track</div>
+            <div class="pillar-desc">Scalable cohort format alongside the current individualized model. Both tracks co-exist — volume at scale without losing tailored, founder-centric support.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">🤝</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Community as the core product</div>
+            <div class="pillar-desc">Deal Club mentor-investors become the backbone of a proprietary founder network. Relationships outlast the program and create compounding value.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">⚙️</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Automating already-structured support</div>
+            <div class="pillar-desc">Mentoring, KPIs, workshops, perks — already structured. Priority: automate via Affinity + platform. Business intros = the one remaining pillar to formalize.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">💰</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Investment model unchanged</div>
+            <div class="pillar-desc">Tickets €100k–€300k. Selection criteria preserved. The Club amplifies dealflow — it doesn't replace the investment thesis or evaluation logic.</div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-icon icon-gold">🔬</div>
+          <div class="pillar-content">
+            <div class="pillar-name">Build → Test → Scale</div>
+            <div class="pillar-desc">Prototype early May 2026. Pilot summer 2026 with select portfolio. Validated model end 2026. Full scaling 2027.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RADAR -->
+  <div class="section-label">Positioning analysis — by dimension</div>
+  <div class="radar-wrap">
+    <div>
+      <div class="radar-legend-title">Gap analysis</div>
+      <div class="radar-legend-sub">Where Inovexus stands today vs. market average, and where the Founders Club aims to reach.</div>
+      <div class="legend-row"><span class="legend-dot ld-now"></span> Inovexus today</div>
+      <div class="legend-row"><span class="legend-dot ld-market"></span> Market average (top accelerators)</div>
+      <div class="legend-row"><span class="legend-dot ld-future"></span> Founders Club — 2027 target</div>
+      <br>
+      <div style="font-size:11px;color:var(--ink-muted);line-height:1.6">Score out of 10 per dimension. Qualitative assessment based on market benchmark and Inovexus current assets.</div>
+    </div>
+    <div>
+      <div class="chart-canvas-wrap">
+        <canvas id="radarChart" role="img" aria-label="Radar comparing Inovexus today, market average, and Founders Club target across 6 dimensions"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAP TABLE -->
+  <div class="section-label">Pillar matrix — Strengths, gaps & ambitions</div>
+  <div class="gap-table">
+    <div class="gap-table-header">
+      <div class="gt-head">Dimension</div>
+      <div class="gt-head">Inovexus today</div>
+      <div class="gt-head">Market standard</div>
+      <div class="gt-head">Founders Club target</div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Mentoring & accompaniment</div>
+      <div class="gt-cell"><span class="badge-sm badge-strong">Core strength</span><br><span style="font-size:11px;color:var(--ink-muted)">66h+, Lead Mentor, 480+ community experts</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Standard: 30–50h, less structured</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Preserve + scale</span><br><span style="font-size:11px;color:var(--ink-muted)">Lead Mentor role redefined (Q2 roadmap)</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Perks & partnerships</div>
+      <div class="gt-cell"><span class="badge-sm badge-strong">Differentiator</span><br><span style="font-size:11px;color:var(--ink-muted)">$3M catalog, €117k/startup activated (avg)</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Vouched marketplaces (Seedcamp model)</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Structure marketplace</span><br><span style="font-size:11px;color:var(--ink-muted)">Curation + perk activation tracking</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Business introductions</div>
+      <div class="gt-cell"><span class="badge-sm badge-weak">To formalize</span><br><span style="font-size:11px;color:var(--ink-muted)">Informal, no ticketing or Affinity tracking</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">CRM ticketing, SLAs, response time KPIs</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Priority pilot item</span><br><span style="font-size:11px;color:var(--ink-muted)">Affinity workflow + intro tracking</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Support workflow automation</div>
+      <div class="gt-cell"><span class="badge-sm badge-mid">In progress</span><br><span style="font-size:11px;color:var(--ink-muted)">Structured but manual. Automation on Q2 roadmap</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">CRM automation, AI triage, auto-matching</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Affinity + platform automation</span><br><span style="font-size:11px;color:var(--ink-muted)">80% sessions tracked, KPI auto-updates</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Community & events</div>
+      <div class="gt-cell"><span class="badge-sm badge-weak">To build</span><br><span style="font-size:11px;color:var(--ink-muted)">Active Deal Club, few structured events</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Retreats, summits, dinners, endurance events</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Core of Founders Club</span><br><span style="font-size:11px;color:var(--ink-muted)">Community = standalone proprietary asset</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">International program DNA</div>
+      <div class="gt-cell"><span class="badge-sm badge-strong">Clear competitive edge</span><br><span style="font-size:11px;color:var(--ink-muted)">Paris + Berlin, EN mentors, US/EU investors, global GTM mindset embedded in program</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Mostly local/regional focus. Expeditions emerging as standalone product</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Double down + monetize</span><br><span style="font-size:11px;color:var(--ink-muted)">Expeditions as standalone product + new P&L line</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Talent acquisition</div>
+      <div class="gt-cell"><span class="badge-sm badge-weak">Sporadic</span><br><span style="font-size:11px;color:var(--ink-muted)">No packaged offer today</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Talent pool, Career Fairs, 150+ intros/year</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Phase 2 roadmap</span><br><span style="font-size:11px;color:var(--ink-muted)">Talent pool + job board (later stage)</span></div>
+    </div>
+    <div class="gap-table-row">
+      <div class="gt-dim">Content & media visibility</div>
+      <div class="gt-cell"><span class="badge-sm badge-mid">Limited</span><br><span style="font-size:11px;color:var(--ink-muted)">LinkedIn presence, no systematic media approach</span></div>
+      <div class="gt-cell"><span style="font-size:11px;">Podcasts, technical newsletters, PR support, journalist databases</span></div>
+      <div class="gt-cell"><span class="badge-sm badge-planned">Q3 amplification</span><br><span style="font-size:11px;color:var(--ink-muted)">6 LinkedIn posts/Q2 + media plan TBD</span></div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="section-label">Roadmap toward the Founders Club — Philippe Roche session, Apr 8 2026</div>
+  <div class="roadmap">
+    <div class="roadmap-title">4-phase action plan to a validated model</div>
+    <div class="roadmap-sub">Goal: validated & operational model by end 2026 · Scaling 2027 · Prototype ready early May</div>
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-dot active">1</div>
+        <div class="phase-period">April 2026</div>
+        <div class="phase-name">Strategic research</div>
+        <ul class="phase-tasks">
+          <li>Accelerator market benchmark</li>
+          <li>Current model performance audit</li>
+          <li>Competitive landscape review</li>
+          <li>Owner: Tom</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">2</div>
+        <div class="phase-period">Apr — May 2026</div>
+        <div class="phase-name">Ideation & design</div>
+        <ul class="phase-tasks">
+          <li>Senior team brainstorm (Philippe, Tom, Stan, Jens, Raphaël)</li>
+          <li>Founders Club architecture</li>
+          <li>Program prototype design</li>
+          <li>"Brainstorm" — no premature judgment</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">3</div>
+        <div class="phase-period">May — Jun 2026</div>
+        <div class="phase-name">Pilot & testing</div>
+        <ul class="phase-tasks">
+          <li>Test with select portfolio companies</li>
+          <li>Founder feedback collection & iteration</li>
+          <li>KPI tracking against new model</li>
+          <li>Owner: Tom & Jens</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">4</div>
+        <div class="phase-period">Post-test → end 2026</div>
+        <div class="phase-name">Positioning & scale</div>
+        <ul class="phase-tasks">
+          <li>Packaging & pricing</li>
+          <li>Go-to-market strategy</li>
+          <li>Scalable org structure design</li>
+          <li>Owner: Tom & Jens</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY SHIFTS -->
+  <div class="section-label">Key shifts — From accelerator to Founders Club</div>
+  <div class="vision-grid">
+    <div class="vision-card">
+      <div class="vision-card-title"><div class="icon-pill">→</div> Program format</div>
+      <ul class="vision-list">
+        <li><strong style="color:var(--ink);min-width:90px;flex-shrink:0">Today</strong> <span class="vs-arrow">→</span> 100% individualized, fully bespoke per startup</li>
+        <li><strong style="color:var(--gold);min-width:90px;flex-shrink:0">Target</strong> <span class="vs-arrow">→</span> Scalable cohort track co-existing with agnostic model</li>
+        <li><strong style="color:var(--ink-muted);min-width:90px;flex-shrink:0">Benefit</strong> <span class="vs-arrow">→</span> Volume without diluting quality — both tracks remain available</li>
+      </ul>
+    </div>
+    <div class="vision-card accent">
+      <div class="vision-card-title"><div class="icon-pill">★</div> Success metrics — Founders Club</div>
+      <ul class="vision-list">
+        <li>Validated model operational <strong style="color:var(--orange-mid)">end 2026</strong></li>
+        <li>Pilot testing May–Jun 2026 <strong style="color:var(--orange-mid)">select portfolio</strong></li>
+        <li>80% inbound sign-ups <strong style="color:var(--orange-mid)">medium term</strong></li>
+        <li>~1 deal/day maintained <strong style="color:var(--orange-mid)">deal flow target</strong></li>
+        <li>Startup NPS &gt; 7.5 <strong style="color:var(--orange-mid)">end Q2</strong></li>
+        <li>525 total mentor community <strong style="color:var(--orange-mid)">Q2 objective</strong></li>
+      </ul>
+    </div>
+    <div class="vision-card">
+      <div class="vision-card-title"><div class="icon-pill">!</div> Risks & watch points</div>
+      <ul class="vision-list">
+        <li>Transition must not degrade current portfolio experience</li>
+        <li>Team resources: sequence workstreams carefully, don't overload Q2</li>
+        <li>Value prop clarity: program vs community vs Club membership — what's the entry point?</li>
+        <li>Community events require funding (sponsors?) and clear format definition</li>
+        <li>Volume growth requires a solid playbook to maintain quality at scale</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BRAINSTORM PREP -->
+  <div class="section-label">Open questions for the upcoming brainstorming session</div>
+  <div class="brainstorm-section">
+    <div class="bs-title">Strategic questions to align on — senior team</div>
+    <div class="bs-sub">These are suggested topics to frame the conversation — not a fixed agenda. The brainstorming session will be completely open and unconstrained. Capture everything, judge nothing.</div>
+    <div class="open-questions">
+      <div class="oq-card">
+        <div class="oq-num">01</div>
+        <div class="oq-q">What role does corporate finance play within the Founders Club?</div>
+        <div class="oq-hint">How do we best showcase our fundraising support as a core pillar of the Club? Think: helping founders prepare and access their next rounds — intros to co-investors, fundraising readiness, deal structuring support.</div>
+      </div>
+      <div class="oq-card">
+        <div class="oq-num">02</div>
+        <div class="oq-q">How do the cohort and agnostic models co-exist operationally?</div>
+        <div class="oq-hint">Same team? Same platform? Different pricing tiers? When does the agnostic model remain the default, and when does the cohort track apply?</div>
+      </div>
+      <div class="oq-card">
+        <div class="oq-num">03</div>
+        <div class="oq-q">What is the 80% inbound acquisition engine — concretely?</div>
+        <div class="oq-hint">Which events, content formats, or community activities drive qualified inbound? What's the funnel from Club member to accelerated startup?</div>
+      </div>
+      <div class="oq-card">
+        <div class="oq-num">04</div>
+        <div class="oq-q">Which support workflows get automated first — and how?</div>
+        <div class="oq-hint">Mentor matching, KPI tracking, perk activation? What's the Affinity + platform stack that removes manual effort without losing the human touch?</div>
+      </div>
+      <div class="oq-card">
+        <div class="oq-num">05</div>
+        <div class="oq-q">How do we finally structure business introductions?</div>
+        <div class="oq-hint">Ticketing, response SLA, Affinity tracking? Who owns intro requests — the success manager, lead mentor, or a new dedicated role?</div>
+      </div>
+      <div class="oq-card">
+        <div class="oq-num">06</div>
+        <div class="oq-q">Should we invest in learning expeditions abroad — or is the cost/effort ratio a dealbreaker?</div>
+        <div class="oq-hint">Given the potential price point and operational workload involved, is it worth building this internally — or should we explore partnerships with existing players to deliver international exposure without the full cost?</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Inovexus · <span>Founders Club</span> · Strategy 2026–2027</div>
+  <div class="footer-right">
+    Internal working document · Strategic session Philippe Roche, April 8 2026
+    <div class="owner-tag"><span class="owner-dot"></span> Tom Revil — Program Director</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const ctx = document.getElementById('radarChart').getContext('2d');
+new Chart(ctx, {
+  type: 'radar',
+  data: {
+    labels: ['Mentoring', 'Perks &\nPartnerships', 'Business\nIntros', 'Community\n& Events', 'International\nProgram DNA', 'Content\n& Media'],
+    datasets: [
+      {
+        label: 'Inovexus today',
+        data: [9, 8.5, 3.5, 4, 9, 4],
+        borderColor: '#F2611A',
+        backgroundColor: 'rgba(242,97,26,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#F2611A',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      },
+      {
+        label: 'Market average',
+        data: [6, 6, 7, 7, 5.5, 7],
+        borderColor: '#1C2A5E',
+        backgroundColor: 'rgba(28,42,94,0.06)',
+        borderWidth: 1.5,
+        borderDash: [4,4],
+        pointBackgroundColor: '#1C2A5E',
+        pointRadius: 3,
+        pointHoverRadius: 5
+      },
+      {
+        label: 'Founders Club target',
+        data: [9, 9, 7.5, 8.5, 9.5, 7],
+        borderColor: '#D4A017',
+        backgroundColor: 'rgba(212,160,23,0.10)',
+        borderWidth: 2,
+        borderDash: [6,3],
+        pointBackgroundColor: '#D4A017',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      r: {
+        beginAtZero: true, max: 10, min: 0,
+        ticks: { stepSize: 2, display: true, font: { size: 10 }, color: '#8888A0', backdropColor: 'transparent' },
+        grid: { color: 'rgba(10,10,15,0.08)' },
+        angleLines: { color: 'rgba(10,10,15,0.08)' },
+        pointLabels: { font: { size: 10.5, family: 'DM Sans' }, color: '#3D3D4E', padding: 8 }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
